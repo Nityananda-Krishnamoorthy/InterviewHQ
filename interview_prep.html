@@ -1,0 +1,1669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interview Prep HQ — Fresher Java/Web Dev</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --surface: #111827;
+    --surface2: #1a2236;
+    --border: #1e2d45;
+    --accent: #00e5ff;
+    --accent2: #7c3aed;
+    --accent3: #10b981;
+    --accent4: #f59e0b;
+    --accent5: #ef4444;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --heading: #f8fafc;
+    --tag-bg: #1e2d45;
+    --card: #131e2e;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Lato', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  /* GRID NOISE BACKGROUND */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ====== TOP NAV ====== */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(10,14,26,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 24px;
+    height: 56px;
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--accent);
+    letter-spacing: -0.5px;
+  }
+  .nav-logo span { color: var(--heading); }
+  .nav-tabs {
+    display: flex; gap: 4px;
+    overflow-x: auto; max-width: 70vw;
+    scrollbar-width: none;
+  }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+  .nav-tab {
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--muted);
+    white-space: nowrap;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+    background: none;
+  }
+  .nav-tab:hover { color: var(--text); border-color: var(--border); }
+  .nav-tab.active {
+    color: var(--accent);
+    background: rgba(0,229,255,0.08);
+    border-color: rgba(0,229,255,0.2);
+  }
+  .timer-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--accent4);
+    background: rgba(245,158,11,0.1);
+    border: 1px solid rgba(245,158,11,0.3);
+    border-radius: 6px;
+    padding: 4px 10px;
+    min-width: 70px;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  /* ====== LAYOUT ====== */
+  .main {
+    margin-top: 56px;
+    position: relative; z-index: 1;
+  }
+  .section { display: none; padding: 32px 24px; max-width: 1000px; margin: 0 auto; }
+  .section.active { display: block; animation: fadeUp 0.3s ease; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ====== TYPOGRAPHY ====== */
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 2rem;
+    color: var(--heading); letter-spacing: -1px;
+    margin-bottom: 8px;
+  }
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700; font-size: 1.25rem;
+    color: var(--heading); letter-spacing: -0.3px;
+    margin: 28px 0 12px;
+  }
+  h3 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600; font-size: 1rem;
+    color: var(--accent); margin: 16px 0 8px;
+  }
+  p { line-height: 1.7; color: var(--text); margin-bottom: 10px; font-size: 0.93rem; }
+  .subtitle { color: var(--muted); font-size: 0.9rem; margin-bottom: 24px; }
+
+  /* ====== CARDS ====== */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: rgba(0,229,255,0.2); }
+  .card-accent { border-left: 3px solid var(--accent); }
+  .card-green { border-left: 3px solid var(--accent3); }
+  .card-purple { border-left: 3px solid var(--accent2); }
+  .card-yellow { border-left: 3px solid var(--accent4); }
+  .card-red { border-left: 3px solid var(--accent5); }
+
+  /* ====== TAGS ====== */
+  .tag {
+    display: inline-block;
+    background: var(--tag-bg);
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 0.72rem;
+    font-family: 'JetBrains Mono', monospace;
+    margin: 2px;
+    color: var(--accent);
+    border: 1px solid rgba(0,229,255,0.1);
+  }
+  .tag.green { color: var(--accent3); border-color: rgba(16,185,129,0.15); }
+  .tag.yellow { color: var(--accent4); border-color: rgba(245,158,11,0.15); }
+  .tag.red { color: var(--accent5); border-color: rgba(239,68,68,0.15); }
+  .tag.purple { color: #a78bfa; border-color: rgba(124,58,237,0.2); }
+
+  /* ====== CODE BLOCKS ====== */
+  pre {
+    background: #0d1520;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    overflow-x: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    line-height: 1.6;
+    margin: 10px 0;
+    color: #a8d8ff;
+    position: relative;
+  }
+  pre .kw { color: #c792ea; }
+  pre .str { color: #c3e88d; }
+  pre .cmt { color: #546e7a; font-style: italic; }
+  pre .num { color: #f78c6c; }
+  pre .cls { color: #82aaff; }
+  pre .fn { color: #82aaff; }
+
+  /* ====== ACCORDION ====== */
+  .accordion { margin-bottom: 8px; }
+  .acc-head {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 18px;
+    display: flex; justify-content: space-between; align-items: center;
+    cursor: pointer;
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 0.92rem;
+    color: var(--heading);
+    text-align: left;
+    transition: background 0.2s;
+  }
+  .acc-head:hover { background: var(--surface2); }
+  .acc-head.open {
+    background: var(--surface2);
+    border-color: rgba(0,229,255,0.2);
+    border-radius: 8px 8px 0 0;
+    color: var(--accent);
+  }
+  .acc-icon { font-size: 0.8rem; transition: transform 0.2s; color: var(--muted); }
+  .acc-head.open .acc-icon { transform: rotate(180deg); color: var(--accent); }
+  .acc-body {
+    display: none;
+    background: var(--card);
+    border: 1px solid rgba(0,229,255,0.15);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    padding: 18px 20px;
+    animation: fadeIn 0.2s;
+  }
+  .acc-body.open { display: block; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  /* ====== TABLE ====== */
+  .diff-table {
+    width: 100%; border-collapse: collapse;
+    font-size: 0.82rem; margin: 10px 0;
+  }
+  .diff-table th {
+    background: var(--surface2);
+    color: var(--accent);
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    padding: 10px 14px;
+    text-align: left;
+    border: 1px solid var(--border);
+  }
+  .diff-table td {
+    padding: 9px 14px;
+    border: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .diff-table tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+
+  /* ====== BADGES ====== */
+  .badge {
+    display: inline-block;
+    border-radius: 20px;
+    padding: 3px 10px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    font-family: 'Syne', sans-serif;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+  .badge-high { background: rgba(239,68,68,0.15); color: var(--accent5); border: 1px solid rgba(239,68,68,0.3); }
+  .badge-med { background: rgba(245,158,11,0.15); color: var(--accent4); border: 1px solid rgba(245,158,11,0.3); }
+  .badge-low { background: rgba(100,116,139,0.15); color: var(--muted); border: 1px solid rgba(100,116,139,0.3); }
+
+  /* ====== MOCK INTERVIEW ====== */
+  .chat-area {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    min-height: 300px;
+    max-height: 460px;
+    overflow-y: auto;
+    display: flex; flex-direction: column;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .chat-area::-webkit-scrollbar { width: 4px; }
+  .chat-area::-webkit-scrollbar-track { background: transparent; }
+  .chat-area::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  .msg {
+    padding: 12px 16px;
+    border-radius: 10px;
+    max-width: 88%;
+    font-size: 0.88rem;
+    line-height: 1.6;
+  }
+  .msg-ai {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    align-self: flex-start;
+    border-left: 3px solid var(--accent);
+  }
+  .msg-ai .msg-role {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  .msg-user {
+    background: rgba(124,58,237,0.12);
+    border: 1px solid rgba(124,58,237,0.2);
+    align-self: flex-end;
+    text-align: right;
+  }
+  .msg-feedback {
+    background: rgba(16,185,129,0.08);
+    border: 1px solid rgba(16,185,129,0.2);
+    align-self: flex-start;
+    border-left: 3px solid var(--accent3);
+    width: 100%;
+  }
+  .msg-feedback .msg-role { color: var(--accent3); font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; margin-bottom: 4px; }
+  .chat-input-row {
+    display: flex; gap: 10px; align-items: flex-end;
+  }
+  .chat-input {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.88rem;
+    color: var(--text);
+    resize: vertical;
+    min-height: 48px;
+    max-height: 150px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .chat-input:focus { border-color: rgba(0,229,255,0.3); }
+  .chat-input::placeholder { color: var(--muted); }
+  .btn {
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.82rem;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #0a0e1a;
+  }
+  .btn-primary:hover { background: #00c8e0; }
+  .btn-secondary {
+    background: var(--surface2);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+  .mock-controls { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .loading-dots { color: var(--muted); font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; }
+
+  /* ====== STATUS CODES GRID ====== */
+  .status-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin: 10px 0; }
+  .status-card {
+    border-radius: 8px;
+    padding: 14px;
+    text-align: center;
+    border: 1px solid;
+  }
+  .s2xx { background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.25); }
+  .s2xx .snum { color: var(--accent3); }
+  .s4xx { background: rgba(245,158,11,0.08); border-color: rgba(245,158,11,0.25); }
+  .s4xx .snum { color: var(--accent4); }
+  .s5xx { background: rgba(239,68,68,0.08); border-color: rgba(239,68,68,0.25); }
+  .s5xx .snum { color: var(--accent5); }
+  .snum { font-family: 'JetBrains Mono', monospace; font-size: 1.3rem; font-weight: 700; margin-bottom: 4px; }
+  .sname { font-size: 0.75rem; font-weight: 700; font-family: 'Syne', sans-serif; margin-bottom: 4px; }
+  .sdesc { font-size: 0.72rem; color: var(--muted); }
+
+  /* ====== PRIORITY LIST ====== */
+  .priority-item {
+    display: flex; align-items: center; gap: 14px;
+    padding: 12px 16px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 8px;
+  }
+  .priority-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--accent);
+    min-width: 28px;
+  }
+  .priority-label { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.9rem; flex: 1; }
+  .priority-meta { font-size: 0.75rem; color: var(--muted); }
+
+  /* ====== QUIZ ====== */
+  .quiz-q {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+    margin-bottom: 12px;
+  }
+  .quiz-q .qtext { font-weight: 700; font-family: 'Syne', sans-serif; font-size: 0.95rem; margin-bottom: 12px; }
+  .quiz-opts { display: flex; flex-direction: column; gap: 6px; }
+  .quiz-opt {
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+    background: var(--surface);
+    text-align: left;
+  }
+  .quiz-opt:hover { border-color: var(--accent); color: var(--accent); }
+  .quiz-opt.correct { background: rgba(16,185,129,0.1); border-color: var(--accent3); color: var(--accent3); }
+  .quiz-opt.wrong { background: rgba(239,68,68,0.08); border-color: var(--accent5); color: var(--accent5); }
+  .quiz-feedback { margin-top: 10px; font-size: 0.82rem; padding: 8px 12px; border-radius: 6px; display: none; }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.good { background: rgba(16,185,129,0.08); color: var(--accent3); border: 1px solid rgba(16,185,129,0.2); }
+  .quiz-feedback.bad { background: rgba(239,68,68,0.05); color: #fca5a5; border: 1px solid rgba(239,68,68,0.2); }
+
+  /* ====== CHECKLIST ====== */
+  .checklist-item {
+    display: flex; gap: 10px; align-items: flex-start;
+    padding: 10px 0; border-bottom: 1px solid var(--border);
+  }
+  .checklist-item:last-child { border-bottom: none; }
+  .chk {
+    width: 18px; height: 18px;
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    flex-shrink: 0;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+    margin-top: 2px;
+  }
+  .chk.done { background: var(--accent3); border-color: var(--accent3); }
+  .chk.done::after { content: '✓'; color: #0a0e1a; font-size: 0.7rem; font-weight: 900; }
+  .chk-label { font-size: 0.88rem; line-height: 1.5; }
+  .chk-label.done-text { text-decoration: line-through; color: var(--muted); }
+
+  /* ====== PROGRESS ====== */
+  .progress-bar { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; margin: 4px 0 16px; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 2px; transition: width 0.5s; }
+
+  /* ====== HOME GRID ====== */
+  .home-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-top: 24px; }
+  .home-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.25s;
+    text-decoration: none;
+    display: block;
+  }
+  .home-card:hover { border-color: var(--accent); transform: translateY(-2px); background: var(--surface2); }
+  .home-card-icon { font-size: 1.8rem; margin-bottom: 10px; }
+  .home-card-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.9rem; color: var(--heading); margin-bottom: 4px; }
+  .home-card-sub { font-size: 0.75rem; color: var(--muted); }
+
+  /* ====== INTRO BUILDER ====== */
+  .intro-template {
+    background: var(--card);
+    border: 1px solid rgba(0,229,255,0.15);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 16px;
+    font-size: 0.88rem;
+    line-height: 1.8;
+    position: relative;
+  }
+  .intro-fill {
+    color: var(--accent);
+    font-weight: 700;
+    cursor: pointer;
+    border-bottom: 1px dashed var(--accent);
+    padding: 0 2px;
+  }
+  .hint-box { background: rgba(245,158,11,0.07); border: 1px solid rgba(245,158,11,0.2); border-radius: 8px; padding: 12px 16px; font-size: 0.82rem; color: #fcd34d; margin: 10px 0; }
+  .tip-box { background: rgba(16,185,129,0.07); border: 1px solid rgba(16,185,129,0.2); border-radius: 8px; padding: 12px 16px; font-size: 0.82rem; color: #6ee7b7; margin: 10px 0; }
+  .warn-box { background: rgba(239,68,68,0.07); border: 1px solid rgba(239,68,68,0.2); border-radius: 8px; padding: 12px 16px; font-size: 0.82rem; color: #fca5a5; margin: 10px 0; }
+
+  /* ====== SCROLLABLE CONTENT FIX ====== */
+  .section { min-height: calc(100vh - 56px); }
+
+  /* ====== RESPONSIVE ====== */
+  @media (max-width: 600px) {
+    h1 { font-size: 1.5rem; }
+    .section { padding: 20px 14px; }
+    nav { padding: 0 12px; }
+    .nav-tab { padding: 5px 10px; font-size: 0.72rem; }
+    .home-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Interview<span>HQ</span></div>
+  <div class="nav-tabs" id="navTabs">
+    <button class="nav-tab active" onclick="showSection('home')">🏠 Home</button>
+    <button class="nav-tab" onclick="showSection('strategy')">🎯 Strategy</button>
+    <button class="nav-tab" onclick="showSection('intro')">👋 Intro</button>
+    <button class="nav-tab" onclick="showSection('oops')">☕ OOPs</button>
+    <button class="nav-tab" onclick="showSection('java')">⚙️ Java</button>
+    <button class="nav-tab" onclick="showSection('collections')">📦 Collections</button>
+    <button class="nav-tab" onclick="showSection('sql')">🗄️ SQL</button>
+    <button class="nav-tab" onclick="showSection('api')">🔌 APIs</button>
+    <button class="nav-tab" onclick="showSection('http')">📡 HTTP</button>
+    <button class="nav-tab" onclick="showSection('coding')">💻 Coding</button>
+    <button class="nav-tab" onclick="showSection('projects')">🚀 Projects</button>
+    <button class="nav-tab" onclick="showSection('mock')">🎤 Mock</button>
+    <button class="nav-tab" onclick="showSection('revision')">⚡ Revision</button>
+  </div>
+  <div class="timer-badge" id="timerBadge" onclick="toggleTimer()" title="Click to start/stop timer">⏱ 00:00</div>
+</nav>
+
+<div class="main">
+
+<!-- ========== HOME ========== -->
+<div class="section active" id="home">
+  <h1>Interview Prep HQ 🚀</h1>
+  <p class="subtitle">Your all-in-one fresher Java/Web Dev interview preparation hub. Click any section to start learning.</p>
+
+  <div class="card card-accent">
+    <h3>📊 Your Topics at a Glance</h3>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;">
+      <span class="tag">Java Basics</span>
+      <span class="tag">OOPs</span>
+      <span class="tag">Collections</span>
+      <span class="tag green">SQL</span>
+      <span class="tag green">REST APIs</span>
+      <span class="tag green">Postman</span>
+      <span class="tag yellow">HTTP Codes</span>
+      <span class="tag yellow">Projects</span>
+      <span class="tag purple">Coding Logic</span>
+      <span class="tag purple">HR Questions</span>
+    </div>
+  </div>
+
+  <div class="home-grid">
+    <div class="home-card" onclick="showSection('strategy')">
+      <div class="home-card-icon">🎯</div>
+      <div class="home-card-title">Interview Strategy</div>
+      <div class="home-card-sub">Priority topics, examiner mindset, panic tips</div>
+    </div>
+    <div class="home-card" onclick="showSection('intro')">
+      <div class="home-card-icon">👋</div>
+      <div class="home-card-title">Self Introduction</div>
+      <div class="home-card-sub">HR answers, intro templates, confidence tips</div>
+    </div>
+    <div class="home-card" onclick="showSection('oops')">
+      <div class="home-card-icon">☕</div>
+      <div class="home-card-title">OOPs Concepts</div>
+      <div class="home-card-sub">Class, Object, Inheritance, Polymorphism...</div>
+    </div>
+    <div class="home-card" onclick="showSection('java')">
+      <div class="home-card-icon">⚙️</div>
+      <div class="home-card-title">Java Basics</div>
+      <div class="home-card-sub">JVM, JDK, static, final, access modifiers</div>
+    </div>
+    <div class="home-card" onclick="showSection('collections')">
+      <div class="home-card-icon">📦</div>
+      <div class="home-card-title">Collections</div>
+      <div class="home-card-sub">List, Set, Map, ArrayList vs LinkedList</div>
+    </div>
+    <div class="home-card" onclick="showSection('sql')">
+      <div class="home-card-icon">🗄️</div>
+      <div class="home-card-title">SQL / Database</div>
+      <div class="home-card-sub">CRUD, Joins, Keys, Normalization basics</div>
+    </div>
+    <div class="home-card" onclick="showSection('api')">
+      <div class="home-card-icon">🔌</div>
+      <div class="home-card-title">REST APIs & Postman</div>
+      <div class="home-card-sub">GET/POST/PUT/DELETE, Auth, Testing</div>
+    </div>
+    <div class="home-card" onclick="showSection('http')">
+      <div class="home-card-icon">📡</div>
+      <div class="home-card-title">HTTP Status Codes</div>
+      <div class="home-card-sub">200, 201, 400, 401, 404, 500 explained</div>
+    </div>
+    <div class="home-card" onclick="showSection('coding')">
+      <div class="home-card-icon">💻</div>
+      <div class="home-card-title">Coding Questions</div>
+      <div class="home-card-sub">Palindrome, Fibonacci, Reverse, Prime...</div>
+    </div>
+    <div class="home-card" onclick="showSection('projects')">
+      <div class="home-card-icon">🚀</div>
+      <div class="home-card-title">Project Explanations</div>
+      <div class="home-card-sub">ToDo, Weather App, YOLO, Textile Dashboard</div>
+    </div>
+    <div class="home-card" onclick="showSection('mock')">
+      <div class="home-card-icon">🎤</div>
+      <div class="home-card-title">Mock Interview</div>
+      <div class="home-card-sub">AI-powered Q&A with live feedback</div>
+    </div>
+    <div class="home-card" onclick="showSection('revision')">
+      <div class="home-card-icon">⚡</div>
+      <div class="home-card-title">Rapid Revision</div>
+      <div class="home-card-sub">Top 20 concepts + checklist + quiz</div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== STRATEGY ========== -->
+<div class="section" id="strategy">
+  <h1>🎯 Interview Strategy</h1>
+  <p class="subtitle">What the interviewer is really looking for — and how to impress them.</p>
+
+  <div class="card card-yellow">
+    <h3>Interview Type Analysis</h3>
+    <p>This is a <strong>Fresher Technical + HR Round</strong> for a Java/Web Developer role. Difficulty: <span class="badge badge-med">Medium</span></p>
+    <p style="margin-top:8px">Interviewers test your <em>conceptual clarity</em>, not deep coding ability. They want to know: <strong>Can you learn? Do you communicate well? Do you know your own projects?</strong></p>
+  </div>
+
+  <h2>Priority List</h2>
+  <div class="priority-item"><span class="priority-num">01</span><span class="priority-label">OOPs Concepts</span><span class="badge badge-high">MUST</span></div>
+  <div class="priority-item"><span class="priority-num">02</span><span class="priority-label">Project Explanation (own projects)</span><span class="badge badge-high">MUST</span></div>
+  <div class="priority-item"><span class="priority-num">03</span><span class="priority-label">Java Basics (JVM, static, final)</span><span class="badge badge-high">MUST</span></div>
+  <div class="priority-item"><span class="priority-num">04</span><span class="priority-label">SQL (joins, primary/foreign key)</span><span class="badge badge-high">MUST</span></div>
+  <div class="priority-item"><span class="priority-num">05</span><span class="priority-label">REST API + HTTP Codes</span><span class="badge badge-med">HIGH</span></div>
+  <div class="priority-item"><span class="priority-num">06</span><span class="priority-label">Self Introduction + HR Questions</span><span class="badge badge-med">HIGH</span></div>
+  <div class="priority-item"><span class="priority-num">07</span><span class="priority-label">Collections Framework</span><span class="badge badge-med">HIGH</span></div>
+  <div class="priority-item"><span class="priority-num">08</span><span class="priority-label">Basic Coding Logic</span><span class="badge badge-med">MED</span></div>
+  <div class="priority-item"><span class="priority-num">09</span><span class="priority-label">ReactJS / NodeJS (bonus)</span><span class="badge badge-low">LOW</span></div>
+  <div class="priority-item"><span class="priority-num">10</span><span class="priority-label">GitHub Commands</span><span class="badge badge-low">LOW</span></div>
+
+  <h2>Where Freshers Usually Fail ❌</h2>
+  <div class="card card-red">
+    <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
+      <li>🔴 Can't explain their own project clearly</li>
+      <li>🔴 Confuse overloading vs overriding</li>
+      <li>🔴 Say "I don't know" without attempting an answer</li>
+      <li>🔴 Speak too fast when nervous</li>
+      <li>🔴 Memorised answers that sound robotic</li>
+      <li>🔴 Weak self-introduction (too short or too long)</li>
+    </ul>
+  </div>
+
+  <h2>Anti-Panic Toolkit 🧠</h2>
+  <div class="card card-green">
+    <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;font-size:0.88rem;">
+      <li>✅ <strong>If you forget:</strong> Say "Let me think about that" — pause 3 seconds — then answer</li>
+      <li>✅ <strong>If you don't know:</strong> Say "I haven't worked with that directly, but my understanding is..." and give what you do know</li>
+      <li>✅ <strong>If you make a mistake:</strong> "Actually, let me correct that..." — shows maturity</li>
+      <li>✅ <strong>Breathe:</strong> Before entering, take 3 slow deep breaths</li>
+      <li>✅ <strong>Eye contact:</strong> Look at the interviewer 70% of the time while speaking</li>
+      <li>✅ <strong>Slow down:</strong> Speak at 70% of your normal speed</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ========== INTRO ========== -->
+<div class="section" id="intro">
+  <h1>👋 Self Introduction</h1>
+  <p class="subtitle">Fill-in templates + HR answers designed for freshers.</p>
+
+  <h2>60-Second HR Introduction</h2>
+  <div class="intro-template">
+    Good morning/afternoon. My name is <span class="intro-fill">[Your Name]</span>, and I am a recent Computer Science Engineering graduate. During my academic journey, I developed strong skills in <span class="intro-fill">Java, ReactJS, and SQL</span>, and I worked on several projects including a <span class="intro-fill">ToDo App, a Weather App using ReactJS and APIs</span>, and a <span class="intro-fill">Medical Image Analysis project using YOLO</span>. I also built a <span class="intro-fill">Textile Dashboard</span> which gave me hands-on experience with CRUD operations and real-time data handling. I am passionate about building reliable software and I enjoy solving problems. I am excited about this opportunity to apply my skills and grow with your team.
+  </div>
+  <div class="tip-box">💡 Tip: Practice saying this out loud 3 times. Time yourself — aim for 45-60 seconds.</div>
+
+  <h2>Technical Self Introduction</h2>
+  <div class="intro-template">
+    I'm a CSE graduate with hands-on experience in <span class="intro-fill">Java (OOPs, Collections), ReactJS, Node.js, and SQL</span>. I've built projects like a <span class="intro-fill">Weather App that consumes a public REST API</span>, a <span class="intro-fill">Medical Image Analysis system using YOLO for object detection</span>, and a <span class="intro-fill">Textile Dashboard</span> with full CRUD operations backed by a database. I'm comfortable with tools like Postman, GitHub, and VS Code. I'm particularly strong in OOPs concepts and API integration.
+  </div>
+
+  <h2>HR Questions</h2>
+  <div class="accordion">
+    <button class="acc-head" onclick="toggleAcc(this)">💪 What are your strengths? <span class="acc-icon">▼</span></button>
+    <div class="acc-body">
+      <p>"My biggest strength is my ability to <strong>learn quickly and adapt</strong>. For example, I built a Medical Image Analysis project using YOLO — a technology I had no prior experience with — within my academic timeline. I'm also strong in <strong>problem-solving and debugging</strong>; when my Weather App API calls failed, I systematically checked the request format, response codes, and CORS settings to fix the issue. And I communicate clearly, which helps in understanding requirements and working in teams."</p>
+    </div>
+  </div>
+  <div class="accordion">
+    <button class="acc-head" onclick="toggleAcc(this)">🔧 What is your weakness? <span class="acc-icon">▼</span></button>
+    <div class="acc-body">
+      <p>"I sometimes spend too much time trying to solve a problem on my own before asking for help — I want to make sure I've tried everything first. But I've been improving this by setting a 30-minute rule: if I'm stuck for 30 minutes, I look for help or resources instead of spending hours. This has improved both my efficiency and my teamwork."</p>
+      <div class="hint-box">⚠️ Never say "I'm a perfectionist" — it's overused. Use a real, honest weakness and pair it with how you're improving.</div>
+    </div>
+  </div>
+  <div class="accordion">
+    <button class="acc-head" onclick="toggleAcc(this)">🏆 Why should we hire you? <span class="acc-icon">▼</span></button>
+    <div class="acc-body">
+      <p>"You should hire me because I bring a combination of <strong>solid foundational knowledge</strong> in Java and web development, <strong>real project experience</strong> including API integration and database work, and — most importantly — a <strong>genuine eagerness to grow</strong>. I don't just know concepts theoretically; I've applied them. I built projects that required debugging real API errors, designing database schemas, and building responsive interfaces. I'm at a stage where I can contribute from day one and grow fast with the right guidance."</p>
+    </div>
+  </div>
+  <div class="accordion">
+    <button class="acc-head" onclick="toggleAcc(this)">🎯 Where do you see yourself in 5 years? <span class="acc-icon">▼</span></button>
+    <div class="acc-body">
+      <p>"In five years, I see myself as a <strong>confident full-stack developer</strong> who has worked on production-level applications. I'd like to have deep expertise in backend development with Java and contribute to system design decisions. I also want to mentor junior developers eventually. Right now, my priority is to learn as much as possible in this role and deliver real value to the team."</p>
+    </div>
+  </div>
+  <div class="accordion">
+    <button class="acc-head" onclick="toggleAcc(this)">💼 Can you work under pressure? <span class="acc-icon">▼</span></button>
+    <div class="acc-body">
+      <p>"Yes. During my final year project, I had to complete the Medical Image Analysis system while also preparing for exams. I learned to <strong>prioritise tasks, break work into smaller pieces</strong>, and stay focused on deadlines. Working under pressure actually helps me focus better, as long as the goals are clear."</p>
+    </div>
+  </div>
+</div>
+
+<!-- ========== OOPS ========== -->
+<div class="section" id="oops">
+  <h1>☕ OOPs Concepts</h1>
+  <p class="subtitle">The #1 most-asked topic for fresher Java interviews. Know these cold.</p>
+
+  <div class="accordion">
+    <button class="acc-head" onclick="toggleAcc(this)">🏗️ Class vs Object <span class="badge badge-high">MUST</span> <span class="acc-icon">▼</span></button>
+    <div class="acc-body">
+      <p><strong>Class</strong> = Blueprint. <strong>Object</strong> = Instance of that blueprint.</p>
+      <pre><span class="kw">class</span> <span class="cls">Car</span> {          <span class="cmt">// Blueprint</span>
+    <span class="cls">String</span> brand;
+    <span class="kw">void</span> drive() { ... }
+}
+<span class="cls">Car</span> myCar = <span class="kw">new</span> <span class="cls">Car</span>(); <span class="cmt">// Object (instance)</span></pre>
+      <p><strong>Interview Answer:</strong> "A class is a template that defines properties and behavior. An object is a real-world entity created from that class. For example, Car is a class; myCar is an object of that class."</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="acc-head" onclick="toggleAcc(this)">🔒 Encapsulation <span class="badge badge-high">MUST</span> <span class="acc-icon">▼</span></button>
+    <div class="acc-body">
+      <p>Hiding internal data by making fields <code>private</code> and exposing them via <code>getter/setter</code> methods.</p>
+      <pre><span class="kw">class</span> <span class="cls">Student</span> {
+    <span class="kw">private</span> <span class="cls">String</span> name;  <span class="cmt">// hidden</span>
+
+    <span class="kw">public</span> <span class="cls">String</span> getName() { <span class="kw">return</span> name; }
+    <span class="kw">public</span> <span class="kw">void</span> setName(<span class="cls">String</span> n) { <span class="kw">this</span>.name = n; }
+}</pre>
+      <p><strong>Real-world:</strong> Your ATM card hides your balance internally; you access it via defined methods.</p>
+      <p><strong>Interview Answer:</strong> "Encapsulation means wrapping data and methods together and restricting direct access to the data using access modifiers. We use private fields with public getters and setters."</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="acc-head" onclick="toggleAcc(this)">👨‍👩‍👧 Inheritance <span class="badge badge-high">MUST</span> <span class="acc-icon">▼</span></button>
+    <div class="acc-body">
+      <p>A child class acquiring properties and methods of a parent class using <code>extends</code>.</p>
+      <pre><span class="kw">class</span> <span class="cls">Animal</span> {
+    <span class="kw">void</span> eat() { <span class="cls">System</span>.out.println(<span class="str">"Eating"</span>); }
+}
+<span class="kw">class</span> <span class="cls">Dog</span> <span class="kw">extends</span> <span class="cls">Animal</span> {
+    <span class="kw">void</span> bark() { <span class="cls">System</span>.out.println(<span class="str">"Woof"</span>); }
+}
+<span class="cls">Dog</span> d = <span class="kw">new</span> <span class="cls">Dog</span>();
+d.eat();  <span class="cmt">// inherited</span>
+d.bark(); <span class="cmt">// own method</span></pre>
+      <p><strong>Types:</strong> Single, Multilevel, Hierarchical (Java doesn't support multiple inheritance via classes — use interfaces)</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="acc-head" onclick="toggleAcc(this)">🎭 Polymorphism — Overloading vs Overriding <span class="badge badge-high">MUST</span> <span class="acc-icon">▼</span></button>
+    <div class="acc-body">
+      <table class="diff-table">
+        <tr><th>Feature</th><th>Overloading (Compile-time)</th><th>Overriding (Runtime)</th></tr>
+        <tr><td>Definition</td><td>Same method name, different params in same class</td><td>Child class redefines parent method</td></tr>
+        <tr><td>Binding</td><td>Compile time</td><td>Run time</td></tr>
+        <tr><td>Return type</td><td>Can differ</td><td>Must be same</td></tr>
+        <tr><td>Keyword</td><td>@Overload (not required)</td><td>@Override</td></tr>
+      </table>
+      <pre><span class="cmt">// OVERLOADING</span>
+<span class="kw">int</span> add(<span class="kw">int</span> a, <span class="kw">int</span> b) { <span class="kw">return</span> a+b; }
+<span class="kw">double</span> add(<span class="kw">double</span> a, <span class="kw">double</span> b) { <span class="kw">return</span> a+b; }
+
+<span class="cmt">// OVERRIDING</span>
+<span class="kw">class</span> <span class="cls">Animal</span> { <span class="kw">void</span> sound() { System.out.println(<span class="str">"..."</span>); }}
+<span class="kw">class</span> <span class="cls">Dog</span> <span class="kw">extends</span> <span class="cls">Animal</span> {
+    @Override
+    <span class="kw">void</span> sound() { System.out.println(<span class="str">"Woof"</span>); }
+}</pre>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="acc-head" onclick="toggleAcc(this)">🌫️ Abstraction — Abstract Class vs Interface <span class="badge badge-high">MUST</span> <span class="acc-icon">▼</span></button>
+    <div class="acc-body">
+      <table class="diff-table">
+        <tr><th>Feature</th><th>Abstract Class</th><th>Interface</th></tr>
+        <tr><td>Keyword</td><td>abstract class</td><td>interface</td></tr>
+        <tr><td>Methods</td><td>Abstract + concrete methods</td><td>All abstract (Java 8+ allows default)</td></tr>
+        <tr><td>Variables</td><td>Any type</td><td>Only public static final</td></tr>
+        <tr><td>Multiple Inheritance</td><td>No</td><td>Yes (implements multiple)</td></tr>
+        <tr><td>Constructor</td><td>Can have</td><td>Cannot have</td></tr>
+      </table>
+      <p><strong>Interview Answer:</strong> "Abstraction hides implementation details and shows only essential features. We use abstract class when classes share common behavior, and interface when we want to define a contract for unrelated classes."</p>
+    </div>
+  </div>
+</div>
+
+<!-- ========== JAVA BASICS ========== -->
+<div class="section" id="java">
+  <h1>⚙️ Java Basics</h1>
+  <p class="subtitle">Foundation concepts that appear in almost every fresher interview.</p>
+
+  <div class="accordion">
+    <button class="acc-head" onclick="toggleAcc(this)">🖥️ JVM vs JDK vs JRE <span class="badge badge-high">MUST</span> <span class="acc-icon">▼</span></button>
+    <div class="acc-body">
+      <table class="diff-table">
+        <tr><th>Term</th><th>Full Form</th><th>What it does</th></tr>
+        <tr><td><span class="tag">JVM</span></td><td>Java Virtual Machine</td><td>Runs bytecode; platform-independent execution</td></tr>
+        <tr><td><span class="tag">JRE</span></td><td>Java Runtime Environment</td><td>JVM + libraries needed to RUN Java programs</td></tr>
+        <tr><td><span class="tag">JDK</span></td><td>Java Development Kit</td><td>JRE + compiler (javac) to WRITE & compile Java</td></tr>
+      </table>
+      <p><strong>Memory trick:</strong> JDK ⊃ JRE ⊃ JVM. To develop: need JDK. To only run: need JRE.</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="acc-head" onclick="toggleAcc(this)">🔑 Access Modifiers <span class="badge badge-high">MUST</span> <span class="acc-icon">▼</span></button>
+    <div class="acc-body">
+      <table class="diff-table">
+        <tr><th>Modifier</th><th>Same Class</th><th>Same Package</th><th>Subclass</th><th>Everywhere</th></tr>
+        <tr><td><span class="tag">private</span></td><td>✅</td><td>❌</td><td>❌</td><td>❌</td></tr>
+        <tr><td><span class="tag">default</span></td><td>✅</td><td>✅</td><td>❌</td><td>❌</td></tr>
+        <tr><td><span class="tag">protected</span></td><td>✅</td><td>✅</td><td>✅</td><td>❌</td></tr>
+        <tr><td><span class="tag">public</span></td><td>✅</td><td>✅</td><td>✅</td><td>✅</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="acc-head" onclick="toggleAcc(this)">📌 static keyword <span class="badge badge-med">HIGH</span> <span class="acc-icon">▼</span></button>
+    <div class="acc-body">
+      <p>Belongs to the <strong>class</strong>, not to any specific object. Shared across all instances.</p>
+      <pre><span class="kw">class</span> <span class="cls">Counter</span> {
+    <span class="kw">static int</span> count = <span class="num">0</span>;  <span class="cmt">// shared</span>
+    <span class="cls">Counter</span>() { count++; }
+}
+<span class="cls">Counter</span> c1 = <span class="kw">new</span> <span class="cls">Counter</span>();
+<span class="cls">Counter</span> c2 = <span class="kw">new</span> <span class="cls">Counter</span>();
+<span class="cls">System</span>.out.println(<span class="cls">Counter</span>.count); <span class="cmt">// 2</span></pre>
+      <p><strong>Use cases:</strong> Math.PI, main() method, utility/helper methods, constants</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="acc-head" onclick="toggleAcc(this)">🔒 final keyword <span class="badge badge-med">HIGH</span> <span class="acc-icon">▼</span></button>
+    <div class="acc-body">
+      <table class="diff-table">
+        <tr><th>Applied to</th><th>Meaning</th></tr>
+        <tr><td>Variable</td><td>Value cannot be changed (constant)</td></tr>
+        <tr><td>Method</td><td>Cannot be overridden in subclass</td></tr>
+        <tr><td>Class</td><td>Cannot be extended (e.g., String class)</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="acc-head" onclick="toggleAcc(this)">🔨 Constructor <span class="badge badge-med">HIGH</span> <span class="acc-icon">▼</span></button>
+    <div class="acc-body">
+      <p>Special method called when an object is created. Same name as class, no return type.</p>
+      <pre><span class="kw">class</span> <span class="cls">Student</span> {
+    <span class="cls">String</span> name;
+    <span class="kw">int</span> age;
+
+    <span class="cmt">// Constructor</span>
+    <span class="cls">Student</span>(<span class="cls">String</span> name, <span class="kw">int</span> age) {
+        <span class="kw">this</span>.name = name;
+        <span class="kw">this</span>.age = age;
+    }
+}</pre>
+      <p><strong>Default vs Parameterized:</strong> Default has no args; parameterized takes args to initialize with specific values.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ========== COLLECTIONS ========== -->
+<div class="section" id="collections">
+  <h1>📦 Collections Framework</h1>
+  <p class="subtitle">Master the hierarchy and key differences interviewers love to ask about.</p>
+
+  <div class="card card-accent">
+    <h3>Collection Hierarchy (Quick View)</h3>
+    <pre style="font-size:0.75rem">Collection (Interface)
+├── List (Interface) → ArrayList, LinkedList, Vector
+├── Set (Interface)  → HashSet, LinkedHashSet, TreeSet
+└── Queue            → PriorityQueue, LinkedList
+
+Map (separate hierarchy)
+└── HashMap, LinkedHashMap, TreeMap, Hashtable</pre>
+  </div>
+
+  <div class="accordion">
+    <button class="acc-head" onclick="toggleAcc(this)">⚡ ArrayList vs LinkedList <span class="badge badge-high">MUST</span> <span class="acc-icon">▼</span></button>
+    <div class="acc-body">
+      <table class="diff-table">
+        <tr><th>Feature</th><th>ArrayList</th><th>LinkedList</th></tr>
+        <tr><td>Internal Structure</td><td>Dynamic array</td><td>Doubly linked list nodes</td></tr>
+        <tr><td>Random access (get)</td><td>O(1) — Fast</td><td>O(n) — Slow</td></tr>
+        <tr><td>Insert/Delete (middle)</td><td>O(n) — Slow</td><td>O(1) — Fast</td></tr>
+        <tr><td>Memory</td><td>Less</td><td>More (stores prev/next pointers)</td></tr>
+        <tr><td>Use when</td><td>Frequent reads</td><td>Frequent insertions/deletions</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="acc-head" onclick="toggleAcc(this)">🗂️ HashMap Basics + Duplicate Handling <span class="badge badge-high">MUST</span> <span class="acc-icon">▼</span></button>
+    <div class="acc-body">
+      <pre><span class="cls">HashMap</span>&lt;<span class="cls">String</span>, <span class="cls">Integer</span>&gt; map = <span class="kw">new</span> <span class="cls">HashMap</span>&lt;&gt;();
+map.put(<span class="str">"Alice"</span>, <span class="num">90</span>);
+map.put(<span class="str">"Bob"</span>, <span class="num">85</span>);
+map.put(<span class="str">"Alice"</span>, <span class="num">95</span>);  <span class="cmt">// overwrites Alice's value!</span>
+System.out.println(map); <span class="cmt">// {Alice=95, Bob=85}</span></pre>
+      <p><strong>Key facts:</strong> Keys are unique. Duplicate key = value overwritten. Allows one null key. Not thread-safe.</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="acc-head" onclick="toggleAcc(this)">🆚 List vs Set <span class="badge badge-med">HIGH</span> <span class="acc-icon">▼</span></button>
+    <div class="acc-body">
+      <table class="diff-table">
+        <tr><th>Feature</th><th>List</th><th>Set</th></tr>
+        <tr><td>Duplicates</td><td>Allowed ✅</td><td>NOT allowed ❌</td></tr>
+        <tr><td>Order</td><td>Maintains insertion order</td><td>HashSet = no order; LinkedHashSet = insertion order</td></tr>
+        <tr><td>Null values</td><td>Multiple nulls OK</td><td>One null (HashSet)</td></tr>
+        <tr><td>Access</td><td>By index (get(0))</td><td>No index access</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ========== SQL ========== -->
+<div class="section" id="sql">
+  <h1>🗄️ SQL / Database Basics</h1>
+  <p class="subtitle">Master the queries and concepts every interviewer will ask.</p>
+
+  <div class="accordion">
+    <button class="acc-head" onclick="toggleAcc(this)">🔑 Primary Key vs Foreign Key <span class="badge badge-high">MUST</span> <span class="acc-icon">▼</span></button>
+    <div class="acc-body">
+      <table class="diff-table">
+        <tr><th>Feature</th><th>Primary Key</th><th>Foreign Key</th></tr>
+        <tr><td>Purpose</td><td>Uniquely identify a row</td><td>Link two tables</td></tr>
+        <tr><td>Nulls</td><td>Not allowed</td><td>Allowed</td></tr>
+        <tr><td>Duplicates</td><td>Not allowed</td><td>Allowed</td></tr>
+        <tr><td>Per table</td><td>Only 1</td><td>Multiple possible</td></tr>
+      </table>
+      <pre><span class="kw">CREATE TABLE</span> Students (
+    student_id <span class="cls">INT PRIMARY KEY</span>,
+    name <span class="cls">VARCHAR</span>(<span class="num">50</span>)
+);
+<span class="kw">CREATE TABLE</span> Marks (
+    mark_id <span class="cls">INT PRIMARY KEY</span>,
+    student_id <span class="cls">INT</span>,
+    <span class="kw">FOREIGN KEY</span> (student_id) <span class="kw">REFERENCES</span> Students(student_id)
+);</pre>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="acc-head" onclick="toggleAcc(this)">🔗 SQL Joins <span class="badge badge-high">MUST</span> <span class="acc-icon">▼</span></button>
+    <div class="acc-body">
+      <table class="diff-table">
+        <tr><th>Join Type</th><th>Returns</th></tr>
+        <tr><td>INNER JOIN</td><td>Only matching rows in BOTH tables</td></tr>
+        <tr><td>LEFT JOIN</td><td>All from left + matching from right (null if no match)</td></tr>
+        <tr><td>RIGHT JOIN</td><td>All from right + matching from left</td></tr>
+        <tr><td>FULL JOIN</td><td>All rows from both tables</td></tr>
+      </table>
+      <pre><span class="kw">SELECT</span> s.name, m.score
+<span class="kw">FROM</span> Students s
+<span class="kw">INNER JOIN</span> Marks m <span class="kw">ON</span> s.student_id = m.student_id;</pre>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="acc-head" onclick="toggleAcc(this)">🗑️ DELETE vs DROP vs TRUNCATE <span class="badge badge-high">MUST</span> <span class="acc-icon">▼</span></button>
+    <div class="acc-body">
+      <table class="diff-table">
+        <tr><th>Command</th><th>What it does</th><th>Rollback?</th><th>Speed</th></tr>
+        <tr><td><span class="tag red">DELETE</span></td><td>Removes specific rows (use WHERE)</td><td>Yes (DML)</td><td>Slow</td></tr>
+        <tr><td><span class="tag red">TRUNCATE</span></td><td>Removes ALL rows, keeps structure</td><td>No (DDL)</td><td>Fast</td></tr>
+        <tr><td><span class="tag red">DROP</span></td><td>Deletes entire table + structure</td><td>No (DDL)</td><td>Fast</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="acc-head" onclick="toggleAcc(this)">📊 Common SQL Queries <span class="badge badge-med">HIGH</span> <span class="acc-icon">▼</span></button>
+    <div class="acc-body">
+      <pre><span class="cmt">-- Select all</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> students;
+
+<span class="cmt">-- With condition</span>
+<span class="kw">SELECT</span> name <span class="kw">FROM</span> students <span class="kw">WHERE</span> age > <span class="num">20</span>;
+
+<span class="cmt">-- Group + aggregate</span>
+<span class="kw">SELECT</span> dept, <span class="fn">COUNT</span>(*) <span class="kw">FROM</span> students <span class="kw">GROUP BY</span> dept;
+
+<span class="cmt">-- Order results</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> students <span class="kw">ORDER BY</span> marks <span class="kw">DESC</span>;
+
+<span class="cmt">-- Update</span>
+<span class="kw">UPDATE</span> students <span class="kw">SET</span> name = <span class="str">'John'</span> <span class="kw">WHERE</span> id = <span class="num">1</span>;</pre>
+    </div>
+  </div>
+</div>
+
+<!-- ========== API ========== -->
+<div class="section" id="api">
+  <h1>🔌 REST APIs & Postman</h1>
+  <p class="subtitle">Essential API knowledge for any modern developer interview.</p>
+
+  <div class="card card-accent">
+    <h3>What is a REST API?</h3>
+    <p>A <strong>REST API</strong> (Representational State Transfer) is a way for two systems to communicate over HTTP using standard methods. The client sends a request; the server responds with data (usually JSON).</p>
+    <p style="margin-top:8px"><strong>Interview Answer:</strong> "A REST API is an interface that allows systems to communicate using HTTP methods. The client requests data and the server responds in a structured format like JSON. It's stateless — each request is independent."</p>
+  </div>
+
+  <h2>HTTP Methods</h2>
+  <div class="card" style="overflow-x:auto;">
+    <table class="diff-table">
+      <tr><th>Method</th><th>Action</th><th>Example URL</th><th>Has Body?</th></tr>
+      <tr><td><span class="tag green">GET</span></td><td>Fetch data</td><td>/api/users</td><td>No</td></tr>
+      <tr><td><span class="tag yellow">POST</span></td><td>Create new</td><td>/api/users</td><td>Yes</td></tr>
+      <tr><td><span class="tag">PUT</span></td><td>Update entire record</td><td>/api/users/1</td><td>Yes</td></tr>
+      <tr><td><span class="tag purple">PATCH</span></td><td>Update partial</td><td>/api/users/1</td><td>Yes</td></tr>
+      <tr><td><span class="tag red">DELETE</span></td><td>Delete record</td><td>/api/users/1</td><td>No</td></tr>
+    </table>
+  </div>
+
+  <div class="accordion">
+    <button class="acc-head" onclick="toggleAcc(this)">🧪 Postman — What & Why <span class="badge badge-med">HIGH</span> <span class="acc-icon">▼</span></button>
+    <div class="acc-body">
+      <p>Postman is a tool to <strong>test REST APIs</strong> without writing code. You can send HTTP requests and inspect responses.</p>
+      <p><strong>Interview Answer:</strong> "I use Postman to test API endpoints during development. I can set the method (GET/POST), provide headers like Authorization and Content-Type, add a request body in JSON, and check the response status and data. It saved me a lot of time debugging my Weather App's API integration."</p>
+      <pre><span class="cmt">// Sample POST request body in Postman</span>
+{
+  <span class="str">"name"</span>: <span class="str">"Alice"</span>,
+  <span class="str">"email"</span>: <span class="str">"alice@example.com"</span>,
+  <span class="str">"password"</span>: <span class="str">"secret123"</span>
+}</pre>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="acc-head" onclick="toggleAcc(this)">🔐 Authentication — Token / JWT <span class="badge badge-med">HIGH</span> <span class="acc-icon">▼</span></button>
+    <div class="acc-body">
+      <p><strong>Token-based auth:</strong> User logs in → server returns a token → client stores token → sends it in headers for every request.</p>
+      <pre><span class="cmt">// Authorization header</span>
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5...</pre>
+      <p><strong>JWT</strong> = JSON Web Token. It has 3 parts: <code>header.payload.signature</code>. The server doesn't need to store sessions — it just verifies the token signature.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ========== HTTP STATUS ========== -->
+<div class="section" id="http">
+  <h1>📡 HTTP Status Codes</h1>
+  <p class="subtitle">Know these by heart — they appear in API, debugging, and Postman questions.</p>
+
+  <div class="status-grid">
+    <div class="status-card s2xx">
+      <div class="snum s2xx">200</div>
+      <div class="sname">OK</div>
+      <div class="sdesc">Request succeeded</div>
+    </div>
+    <div class="status-card s2xx">
+      <div class="snum s2xx">201</div>
+      <div class="sname">Created</div>
+      <div class="sdesc">New resource created (POST)</div>
+    </div>
+    <div class="status-card s2xx">
+      <div class="snum s2xx">204</div>
+      <div class="sname">No Content</div>
+      <div class="sdesc">Success, no body (DELETE)</div>
+    </div>
+    <div class="status-card s4xx">
+      <div class="snum s4xx">400</div>
+      <div class="sname">Bad Request</div>
+      <div class="sdesc">Invalid input from client</div>
+    </div>
+    <div class="status-card s4xx">
+      <div class="snum s4xx">401</div>
+      <div class="sname">Unauthorized</div>
+      <div class="sdesc">Not logged in / no token</div>
+    </div>
+    <div class="status-card s4xx">
+      <div class="snum s4xx">403</div>
+      <div class="sname">Forbidden</div>
+      <div class="sdesc">Logged in, but no permission</div>
+    </div>
+    <div class="status-card s4xx">
+      <div class="snum s4xx">404</div>
+      <div class="sname">Not Found</div>
+      <div class="sdesc">Resource doesn't exist</div>
+    </div>
+    <div class="status-card s5xx">
+      <div class="snum s5xx">500</div>
+      <div class="sname">Internal Error</div>
+      <div class="sdesc">Server crashed / bug</div>
+    </div>
+    <div class="status-card s5xx">
+      <div class="snum s5xx">503</div>
+      <div class="sname">Unavailable</div>
+      <div class="sdesc">Server down/overloaded</div>
+    </div>
+  </div>
+
+  <div class="tip-box">💡 Memory tip: 2xx = Success ✅ | 3xx = Redirect 🔀 | 4xx = Client's fault ❌ | 5xx = Server's fault 💥</div>
+
+  <div class="hint-box">⚡ Interview Scenario: "You call an API and get 401 — what do you check?" → "I check if I'm sending the correct Authorization header with a valid token. 401 means unauthenticated."</div>
+</div>
+
+<!-- ========== CODING ========== -->
+<div class="section" id="coding">
+  <h1>💻 Coding Questions</h1>
+  <p class="subtitle">The most probable fresher coding questions with logic walkthroughs.</p>
+
+  <div class="accordion">
+    <button class="acc-head" onclick="toggleAcc(this)">🔁 Reverse a String <span class="badge badge-high">MUST</span> <span class="acc-icon">▼</span></button>
+    <div class="acc-body">
+      <p><strong>Logic:</strong> Loop from last character to first, build a new string.</p>
+      <pre><span class="kw">public static</span> <span class="cls">String</span> reverseString(<span class="cls">String</span> s) {
+    <span class="cls">String</span> rev = <span class="str">""</span>;
+    <span class="kw">for</span> (<span class="kw">int</span> i = s.length()-<span class="num">1</span>; i >= <span class="num">0</span>; i--) {
+        rev += s.charAt(i);
+    }
+    <span class="kw">return</span> rev;
+}
+<span class="cmt">// Input: "hello" → Output: "olleh"</span></pre>
+      <p><strong>How to explain:</strong> "I start from the last index and keep adding each character to a new string."</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="acc-head" onclick="toggleAcc(this)">🔂 Palindrome Check <span class="badge badge-high">MUST</span> <span class="acc-icon">▼</span></button>
+    <div class="acc-body">
+      <p><strong>Logic:</strong> A word reads the same forwards and backwards. Compare first half with reversed second half.</p>
+      <pre><span class="kw">public static boolean</span> isPalindrome(<span class="cls">String</span> s) {
+    <span class="kw">int</span> l = <span class="num">0</span>, r = s.length() - <span class="num">1</span>;
+    <span class="kw">while</span> (l &lt; r) {
+        <span class="kw">if</span> (s.charAt(l) != s.charAt(r)) <span class="kw">return false</span>;
+        l++; r--;
+    }
+    <span class="kw">return true</span>;
+}
+<span class="cmt">// "racecar" → true, "hello" → false</span></pre>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="acc-head" onclick="toggleAcc(this)">🌀 Fibonacci Series <span class="badge badge-high">MUST</span> <span class="acc-icon">▼</span></button>
+    <div class="acc-body">
+      <p><strong>Logic:</strong> Each number = sum of the previous two. Starts: 0, 1, 1, 2, 3, 5, 8...</p>
+      <pre><span class="kw">public static void</span> fibonacci(<span class="kw">int</span> n) {
+    <span class="kw">int</span> a = <span class="num">0</span>, b = <span class="num">1</span>;
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; n; i++) {
+        System.out.print(a + <span class="str">" "</span>);
+        <span class="kw">int</span> temp = a + b;
+        a = b;
+        b = temp;
+    }
+}
+<span class="cmt">// n=6: 0 1 1 2 3 5</span></pre>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="acc-head" onclick="toggleAcc(this)">🔢 Prime Number <span class="badge badge-med">HIGH</span> <span class="acc-icon">▼</span></button>
+    <div class="acc-body">
+      <p><strong>Logic:</strong> A number divisible only by 1 and itself. Check divisibility from 2 to √n.</p>
+      <pre><span class="kw">public static boolean</span> isPrime(<span class="kw">int</span> n) {
+    <span class="kw">if</span> (n &lt;= <span class="num">1</span>) <span class="kw">return false</span>;
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">2</span>; i &lt;= Math.sqrt(n); i++) {
+        <span class="kw">if</span> (n % i == <span class="num">0</span>) <span class="kw">return false</span>;
+    }
+    <span class="kw">return true</span>;
+}
+<span class="cmt">// 7 → true, 9 → false (9%3==0)</span></pre>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="acc-head" onclick="toggleAcc(this)">🔍 Remove Duplicates from Array <span class="badge badge-med">HIGH</span> <span class="acc-icon">▼</span></button>
+    <div class="acc-body">
+      <pre><span class="kw">import</span> java.util.*;
+<span class="kw">public static int</span>[] removeDuplicates(<span class="kw">int</span>[] arr) {
+    <span class="cls">Set</span>&lt;<span class="cls">Integer</span>&gt; seen = <span class="kw">new</span> <span class="cls">LinkedHashSet</span>&lt;&gt;();
+    <span class="kw">for</span> (<span class="kw">int</span> x : arr) seen.add(x);
+    <span class="kw">int</span>[] result = <span class="kw">new int</span>[seen.size()];
+    <span class="kw">int</span> i = <span class="num">0</span>;
+    <span class="kw">for</span> (<span class="kw">int</span> x : seen) result[i++] = x;
+    <span class="kw">return</span> result;
+}
+<span class="cmt">// [1,2,2,3,3,4] → [1,2,3,4]</span></pre>
+    </div>
+  </div>
+</div>
+
+<!-- ========== PROJECTS ========== -->
+<div class="section" id="projects">
+  <h1>🚀 Project Explanations</h1>
+  <p class="subtitle">How to talk about your projects confidently and technically.</p>
+
+  <div class="accordion">
+    <button class="acc-head" onclick="toggleAcc(this)">✅ ToDo List App (ReactJS) <span class="acc-icon">▼</span></button>
+    <div class="acc-body">
+      <p><strong>Strong Explanation:</strong> "I built a ToDo List application using ReactJS where users can add, mark complete, and delete tasks. I used React's <code>useState</code> hook to manage the task list state and <code>useEffect</code> to persist tasks to localStorage. Each task is a component with conditional rendering to show a strikethrough on completion. This project helped me understand component lifecycle and state management in React."</p>
+      <h3>Likely Follow-up Questions:</h3>
+      <ul style="display:flex;flex-direction:column;gap:6px;font-size:0.85rem;margin-top:8px;">
+        <li>❓ How did you handle state? <span class="tag">useState</span></li>
+        <li>❓ Did you store data? <span class="tag">localStorage / useEffect</span></li>
+        <li>❓ What happens when you reload? <span class="tag">Data persists via localStorage</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="acc-head" onclick="toggleAcc(this)">🌦️ Weather App (ReactJS + API) <span class="acc-icon">▼</span></button>
+    <div class="acc-body">
+      <p><strong>Strong Explanation:</strong> "I built a Weather App using ReactJS that fetches real-time weather data from the OpenWeatherMap API. Users type a city name, and I use <code>fetch()</code> with async/await to call the API and display temperature, humidity, and weather conditions. I handled API errors by showing user-friendly messages when city is not found (404 from API). This project gave me solid experience with REST API integration and asynchronous JavaScript."</p>
+      <h3>Likely Follow-up Questions:</h3>
+      <ul style="display:flex;flex-direction:column;gap:6px;font-size:0.85rem;margin-top:8px;">
+        <li>❓ What API did you use?<span class="tag">OpenWeatherMap API</span></li>
+        <li>❓ How did you handle errors? <span class="tag">try/catch + error state</span></li>
+        <li>❓ What HTTP method? <span class="tag">GET — fetching weather data</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="acc-head" onclick="toggleAcc(this)">🩺 Medical Image Analysis (YOLO) <span class="acc-icon">▼</span></button>
+    <div class="acc-body">
+      <p><strong>Strong Explanation:</strong> "This was my most technically challenging project. I built a medical image analysis system using the YOLO (You Only Look Once) object detection model in Python. The system detects regions of interest in medical images such as tumors or lesions. I trained the model on labeled image data, and built a simple frontend to upload images and display detection results. This project gave me experience with machine learning model deployment and image processing."</p>
+      <h3>Likely Follow-up Questions:</h3>
+      <ul style="display:flex;flex-direction:column;gap:6px;font-size:0.85rem;margin-top:8px;">
+        <li>❓ What is YOLO? <span class="tag">Real-time object detection algorithm</span></li>
+        <li>❓ What dataset did you use? <span class="tag">Mention your dataset</span></li>
+        <li>❓ What was the accuracy? <span class="tag">State your model's performance</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="acc-head" onclick="toggleAcc(this)">🧵 Textile Dashboard <span class="badge badge-high">KEY PROJECT</span> <span class="acc-icon">▼</span></button>
+    <div class="acc-body">
+      <p><strong>Strong Explanation:</strong> "I built a Textile Industry Dashboard that helps manage production, inventory, and employee data. The frontend uses ReactJS with dynamic charts for production metrics. The backend was built with Node.js/Express.js, with REST APIs for CRUD operations. Data is stored in a SQL/MongoDB database. I implemented JWT-based authentication so only authorized users can view sensitive reports. The dashboard includes modules for production tracking, raw material inventory, employee management, and report generation."</p>
+      <h3>Technical Points to Mention:</h3>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin:8px 0">
+        <span class="tag">ReactJS Frontend</span>
+        <span class="tag">Node.js + Express</span>
+        <span class="tag">REST APIs</span>
+        <span class="tag">CRUD</span>
+        <span class="tag">JWT Auth</span>
+        <span class="tag">SQL/MongoDB</span>
+        <span class="tag">Charts</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-box">💡 For ANY project: mention (1) What it does, (2) Tech stack, (3) Your role, (4) A challenge you faced and how you solved it, (5) What you'd improve. This structure = confident, complete answer.</div>
+</div>
+
+<!-- ========== MOCK INTERVIEW ========== -->
+<div class="section" id="mock">
+  <h1>🎤 Mock Interview</h1>
+  <p class="subtitle">AI-powered real-time mock interview. Type your answer and get instant feedback.</p>
+
+  <div class="mock-controls">
+    <button class="btn btn-primary" onclick="startMock('hr')">👔 HR Round</button>
+    <button class="btn btn-secondary" onclick="startMock('tech')">⚙️ Technical Round</button>
+    <button class="btn btn-secondary" onclick="startMock('coding')">💻 Coding Round</button>
+    <button class="btn btn-secondary" onclick="startMock('project')">🚀 Project Round</button>
+    <button class="btn btn-secondary" onclick="clearMock()" style="margin-left:auto">🗑️ Clear</button>
+  </div>
+
+  <div class="chat-area" id="chatArea">
+    <div class="msg msg-ai">
+      <div class="msg-role">🎙 INTERVIEWER</div>
+      Welcome to your mock interview! Choose a round above to begin. I'll ask questions one at a time, and give you honest feedback on each answer. Good luck!
+    </div>
+  </div>
+
+  <div class="chat-input-row">
+    <textarea class="chat-input" id="userInput" placeholder="Type your answer here... (Press Enter to submit)" rows="2" onkeydown="handleEnter(event)"></textarea>
+    <button class="btn btn-primary" onclick="submitAnswer()">Send ↵</button>
+  </div>
+  <div id="apiStatus" style="font-size:0.75rem;color:var(--muted);margin-top:6px;"></div>
+</div>
+
+<!-- ========== RAPID REVISION ========== -->
+<div class="section" id="revision">
+  <h1>⚡ Rapid Revision</h1>
+  <p class="subtitle">Top 20 concepts + quick quiz + pre-interview checklist.</p>
+
+  <h2>Top 20 Must-Know One-Liners</h2>
+  <div class="card">
+    <ol style="display:flex;flex-direction:column;gap:8px;padding-left:20px;font-size:0.85rem;line-height:1.6;">
+      <li><strong>Class</strong> = Blueprint. <strong>Object</strong> = Instance of blueprint.</li>
+      <li><strong>Encapsulation</strong> = private fields + public getters/setters.</li>
+      <li><strong>Inheritance</strong> = child acquires parent properties via <code>extends</code>.</li>
+      <li><strong>Overloading</strong> = same name, different params, compile-time.</li>
+      <li><strong>Overriding</strong> = child redefines parent method, run-time.</li>
+      <li><strong>Abstract class</strong> can have constructors; <strong>Interface</strong> cannot.</li>
+      <li><strong>JVM</strong> runs bytecode. <strong>JDK</strong> = JRE + compiler for development.</li>
+      <li><strong>static</strong> = belongs to class, not instance. Shared across objects.</li>
+      <li><strong>final variable</strong> = constant. <strong>final class</strong> = can't extend.</li>
+      <li><strong>ArrayList</strong> = fast read (O1). <strong>LinkedList</strong> = fast insert/delete.</li>
+      <li><strong>HashMap</strong> = key-value pairs. Keys unique; duplicate key overwrites value.</li>
+      <li><strong>Set</strong> = no duplicates. <strong>List</strong> = allows duplicates.</li>
+      <li><strong>Primary Key</strong> = unique, not null. <strong>Foreign Key</strong> = links tables.</li>
+      <li><strong>INNER JOIN</strong> = matching rows only. <strong>LEFT JOIN</strong> = all left + matched right.</li>
+      <li><strong>DELETE</strong> removes rows (can rollback). <strong>TRUNCATE</strong> removes all rows (no rollback).</li>
+      <li><strong>GET</strong> = fetch. <strong>POST</strong> = create. <strong>PUT</strong> = update. <strong>DELETE</strong> = remove.</li>
+      <li><strong>200</strong>=OK, <strong>201</strong>=Created, <strong>400</strong>=Bad Request, <strong>401</strong>=Unauthorized, <strong>404</strong>=Not Found, <strong>500</strong>=Server Error.</li>
+      <li><strong>JWT</strong> = token with header.payload.signature. Stateless auth.</li>
+      <li><strong>Postman</strong> = tool to test REST APIs manually.</li>
+      <li>When stuck in interview: "Let me think..." → pause → give partial answer → "I'd like to verify this further."</li>
+    </ol>
+  </div>
+
+  <h2>🧠 Quick Quiz</h2>
+  <div class="quiz-q">
+    <div class="qtext">1. What is the difference between ArrayList and LinkedList?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="quizAnswer(this, false, 'q1')">Both store elements in linked nodes</button>
+      <button class="quiz-opt" onclick="quizAnswer(this, true, 'q1')">ArrayList uses dynamic array (fast read); LinkedList uses nodes (fast insert/delete)</button>
+      <button class="quiz-opt" onclick="quizAnswer(this, false, 'q1')">ArrayList is faster in all operations</button>
+    </div>
+    <div class="quiz-feedback" id="q1">✅ ArrayList = O(1) random access. LinkedList = O(1) insertion at ends but O(n) for get.</div>
+  </div>
+  <div class="quiz-q">
+    <div class="qtext">2. What HTTP status code means "resource not found"?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="quizAnswer(this, false, 'q2')">500</button>
+      <button class="quiz-opt" onclick="quizAnswer(this, false, 'q2')">401</button>
+      <button class="quiz-opt" onclick="quizAnswer(this, true, 'q2')">404</button>
+      <button class="quiz-opt" onclick="quizAnswer(this, false, 'q2')">400</button>
+    </div>
+    <div class="quiz-feedback" id="q2">✅ 404 = Not Found. 401 = Unauthorized, 400 = Bad Request, 500 = Server Error.</div>
+  </div>
+  <div class="quiz-q">
+    <div class="qtext">3. Which keyword prevents a method from being overridden?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="quizAnswer(this, false, 'q3')">static</button>
+      <button class="quiz-opt" onclick="quizAnswer(this, true, 'q3')">final</button>
+      <button class="quiz-opt" onclick="quizAnswer(this, false, 'q3')">private</button>
+      <button class="quiz-opt" onclick="quizAnswer(this, false, 'q3')">abstract</button>
+    </div>
+    <div class="quiz-feedback" id="q3">✅ final on a method prevents overriding. final on a class prevents extension.</div>
+  </div>
+  <div class="quiz-q">
+    <div class="qtext">4. What does INNER JOIN return?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="quizAnswer(this, false, 'q4')">All rows from left table</button>
+      <button class="quiz-opt" onclick="quizAnswer(this, false, 'q4')">All rows from both tables</button>
+      <button class="quiz-opt" onclick="quizAnswer(this, true, 'q4')">Only matching rows from both tables</button>
+    </div>
+    <div class="quiz-feedback" id="q4">✅ INNER JOIN = intersection. Only rows with matching keys in both tables are returned.</div>
+  </div>
+
+  <h2>✅ Pre-Interview Checklist</h2>
+  <div class="card">
+    <div class="checklist-item"><div class="chk" onclick="toggleChk(this)"></div><div class="chk-label">Practiced self introduction (60 seconds, out loud)</div></div>
+    <div class="checklist-item"><div class="chk" onclick="toggleChk(this)"></div><div class="chk-label">Revised OOPs concepts: class, object, encapsulation, inheritance, polymorphism, abstraction</div></div>
+    <div class="checklist-item"><div class="chk" onclick="toggleChk(this)"></div><div class="chk-label">Know JVM vs JDK vs JRE difference</div></div>
+    <div class="checklist-item"><div class="chk" onclick="toggleChk(this)"></div><div class="chk-label">Know ArrayList vs LinkedList difference</div></div>
+    <div class="checklist-item"><div class="chk" onclick="toggleChk(this)"></div><div class="chk-label">Can explain SQL joins with example</div></div>
+    <div class="checklist-item"><div class="chk" onclick="toggleChk(this)"></div><div class="chk-label">Know HTTP methods and at least 5 status codes</div></div>
+    <div class="checklist-item"><div class="chk" onclick="toggleChk(this)"></div><div class="chk-label">Can explain each project clearly in 2 minutes</div></div>
+    <div class="checklist-item"><div class="chk" onclick="toggleChk(this)"></div><div class="chk-label">Practiced reverse string and palindrome code logic</div></div>
+    <div class="checklist-item"><div class="chk" onclick="toggleChk(this)"></div><div class="chk-label">Have answers ready for "strength", "weakness", "why hire you"</div></div>
+    <div class="checklist-item"><div class="chk" onclick="toggleChk(this)"></div><div class="chk-label">Outfit ready, ID/documents ready, location confirmed</div></div>
+    <div class="checklist-item"><div class="chk" onclick="toggleChk(this)"></div><div class="chk-label">Had a good meal and slept enough</div></div>
+  </div>
+
+  <div class="card card-green" style="margin-top:20px">
+    <h3>🚨 Emergency Recovery Tips</h3>
+    <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;font-size:0.86rem;">
+      <li>🔄 <strong>Forgot the answer?</strong> → "That's a good question. Let me think for a moment..." (5 sec pause) → give what you know</li>
+      <li>🔄 <strong>Made a mistake?</strong> → "Actually, let me correct myself — I meant to say..." (shows intellectual honesty)</li>
+      <li>🔄 <strong>Completely don't know?</strong> → "I haven't worked with that specifically, but based on what I know about [related concept]..." → show reasoning ability</li>
+      <li>🔄 <strong>Nervous?</strong> → Slow your breathing, slow your speech, make eye contact</li>
+      <li>🔄 <strong>Silence gap?</strong> → "I want to make sure I give you an accurate answer, so let me think..." — silence is okay</li>
+    </ul>
+  </div>
+</div>
+
+</div><!-- /.main -->
+
+<script>
+// ===== SECTION SWITCHING =====
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  const tabs = document.querySelectorAll('.nav-tab');
+  tabs.forEach(t => { if (t.getAttribute('onclick').includes("'"+id+"'")) t.classList.add('active'); });
+  window.scrollTo(0, 0);
+}
+
+// ===== ACCORDION =====
+function toggleAcc(btn) {
+  const body = btn.nextElementSibling;
+  const isOpen = btn.classList.contains('open');
+  btn.classList.toggle('open', !isOpen);
+  body.classList.toggle('open', !isOpen);
+}
+
+// ===== TIMER =====
+let timerRunning = false, timerSec = 0, timerInterval;
+function toggleTimer() {
+  if (timerRunning) {
+    clearInterval(timerInterval);
+    timerRunning = false;
+    document.getElementById('timerBadge').style.color = 'var(--accent4)';
+  } else {
+    timerRunning = true;
+    document.getElementById('timerBadge').style.color = 'var(--accent3)';
+    timerInterval = setInterval(() => {
+      timerSec++;
+      const m = String(Math.floor(timerSec/60)).padStart(2,'0');
+      const s = String(timerSec%60).padStart(2,'0');
+      document.getElementById('timerBadge').textContent = `⏱ ${m}:${s}`;
+    }, 1000);
+  }
+}
+
+// ===== QUIZ =====
+function quizAnswer(btn, correct, qid) {
+  const opts = btn.parentElement.querySelectorAll('.quiz-opt');
+  opts.forEach(o => o.disabled = true);
+  btn.classList.add(correct ? 'correct' : 'wrong');
+  const fb = document.getElementById(qid);
+  fb.className = 'quiz-feedback show ' + (correct ? 'good' : 'bad');
+  if (!correct) fb.textContent = '❌ ' + fb.textContent.replace('✅ ','') + ' — Review this concept!';
+}
+
+// ===== CHECKLIST =====
+function toggleChk(el) {
+  el.classList.toggle('done');
+  const label = el.nextElementSibling;
+  label.classList.toggle('done-text');
+}
+
+// ===== MOCK INTERVIEW =====
+const questions = {
+  hr: [
+    "Tell me about yourself. Please give me your introduction.",
+    "What are your key strengths as a software developer?",
+    "What is your biggest weakness and how are you working on it?",
+    "Why should we hire you over other candidates?",
+    "Where do you see yourself in 5 years?",
+    "Are you comfortable relocating or working in different shifts?",
+    "Why are you interested in this particular role and company?"
+  ],
+  tech: [
+    "Explain the four pillars of Object-Oriented Programming.",
+    "What is the difference between method overloading and method overriding?",
+    "Explain the difference between ArrayList and LinkedList.",
+    "What is a HashMap and how does it handle duplicate keys?",
+    "Explain the difference between DELETE, TRUNCATE, and DROP in SQL.",
+    "What are the main HTTP methods in REST APIs and when do you use each?",
+    "What does a 401 HTTP status code mean? How is it different from 403?",
+    "Explain what JVM, JRE, and JDK are.",
+    "What is the purpose of the 'final' keyword in Java?",
+    "What is encapsulation? Give a real-world example."
+  ],
+  coding: [
+    "Write Java code (without built-in reverse functions) to reverse a string. Explain your logic step by step.",
+    "How would you check if a number is prime? Walk me through your logic.",
+    "Write logic to find duplicate elements in an array without using Collections.",
+    "Explain the Fibonacci series and write code to generate the first N numbers.",
+    "How would you check if a string is a palindrome? Write the code."
+  ],
+  project: [
+    "Tell me about your most technically complex project.",
+    "Explain your Textile Dashboard project — what problem does it solve and how did you build it?",
+    "In your Weather App, how did you call the API and handle errors?",
+    "What challenges did you face in your Medical Image Analysis project using YOLO?",
+    "In any of your projects, how did you handle authentication and authorization?",
+    "What would you improve in your ToDo List app if you had more time?"
+  ]
+};
+
+let currentRound = null, currentQIdx = 0, conversationHistory = [];
+
+function startMock(round) {
+  currentRound = round;
+  currentQIdx = 0;
+  conversationHistory = [];
+  clearMock();
+  const roundName = {hr:'HR Round 👔', tech:'Technical Round ⚙️', coding:'Coding Round 💻', project:'Project Round 🚀'}[round];
+  addMsg('ai', `Starting <strong>${roundName}</strong>! I'll ask you questions one at a time. Give your best answer — I'll provide honest feedback after each response.<br><br><strong>Ready? Here's your first question:</strong>`);
+  setTimeout(() => askQuestion(), 600);
+}
+
+function askQuestion() {
+  const qs = questions[currentRound];
+  if (currentQIdx >= qs.length) {
+    addMsg('ai', `🎉 <strong>Round Complete!</strong> You've answered all ${qs.length} questions. Great practice session! Review the feedback above and work on any weak areas. You've got this!`);
+    return;
+  }
+  addMsg('ai', `<strong>Q${currentQIdx+1}/${questions[currentRound].length}:</strong> ${questions[currentRound][currentQIdx]}`);
+}
+
+function addMsg(type, content) {
+  const area = document.getElementById('chatArea');
+  const div = document.createElement('div');
+  div.className = type === 'ai' ? 'msg msg-ai' : type === 'user' ? 'msg msg-user' : 'msg msg-feedback';
+  if (type === 'ai') div.innerHTML = `<div class="msg-role">🎙 INTERVIEWER</div>${content}`;
+  else if (type === 'feedback') div.innerHTML = `<div class="msg-role">📊 FEEDBACK</div>${content}`;
+  else div.innerHTML = content;
+  area.appendChild(div);
+  area.scrollTop = area.scrollHeight;
+}
+
+function clearMock() {
+  document.getElementById('chatArea').innerHTML = '';
+  document.getElementById('userInput').value = '';
+}
+
+function handleEnter(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); submitAnswer(); }
+}
+
+let isSubmitting = false;
+async function submitAnswer() {
+  if (isSubmitting) return;
+  isSubmitting = true;
+  const input = document.getElementById('userInput');
+  const answer = input.value.trim();
+  if (!answer || !currentRound) {
+    if (!currentRound) document.getElementById('apiStatus').textContent = 'Please select a round first.';
+    return;
+  }
+  addMsg('user', answer.replace(/\n/g,'<br>'));
+  input.value = '';
+  const question = questions[currentRound][currentQIdx];
+  const status = document.getElementById('apiStatus');
+  status.textContent = '⏳ Evaluating...';
+
+  const systemPrompt = `You are a realistic, experienced technical interviewer evaluating a fresher/junior developer candidate's interview answer. 
+
+Be honest but encouraging. Evaluate the answer for:
+1. Technical accuracy
+2. Completeness  
+3. Communication clarity
+4. Confidence level
+
+Format your feedback as:
+**Score:** X/10
+**What was good:** [1-2 lines]
+**What was missing/incorrect:** [if anything, 1-2 lines]
+**Better answer:** [give a model answer in 3-5 sentences]
+
+Keep feedback concise — under 150 words total. Then say "Moving to next question..." if there are more, or congratulate if this was the last.`;
+
+  conversationHistory.push({ role: 'user', content: `Question: ${question}\n\nCandidate's answer: ${answer}` });
+
+  try {
+    const prompt = `Question: ${question}
+
+Candidate's answer: ${answer}`;
+    const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+  method: 'POST',
+  headers: {
+  'Content-Type': 'application/json',
+  'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
+  'HTTP-Referer': 'http://127.0.0.1:5500',
+  'X-Title': 'InterviewHQ'
+},
+  body: JSON.stringify({
+   model: "openai/gpt-oss-20b:free",
+    max_tokens: 1000,
+   messages: [
+  {
+    role: 'system',
+    content: systemPrompt
+  },
+  ...conversationHistory,
+  {
+    role: 'user',
+    content: prompt
+  }
+]
+  })
+});
+const data = await res.json();
+console.log('API Response:', data); // shows full response in console
+// Handle API errors first
+if (res.status === 429) {
+
+  addMsg(
+    'feedback',
+    '⚠️ AI is busy right now. Please wait a few seconds before trying again.'
+  );
+
+  status.textContent = '';
+
+  return;
+}
+
+if (!res.ok) {
+
+  addMsg(
+    'feedback',
+    `❌ ${data.error?.message || 'API request failed'}`
+  );
+
+  status.textContent = '';
+
+  return;
+}
+
+// Get AI response
+const reply =
+  data?.choices?.[0]?.message?.content ||
+  "No AI response received.";
+
+// Store history
+conversationHistory.push({
+  role: 'assistant',
+  content: reply
+});
+
+// Format response
+const formatted = reply
+  .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+  .replace(/\n/g, '<br>');
+
+// Show response ONCE only
+addMsg('feedback', formatted);
+
+status.textContent = '';
+
+// Move to next question
+currentQIdx++;
+
+if (currentQIdx < questions[currentRound].length) {
+
+  setTimeout(() => {
+    askQuestion();
+  }, 1500);
+
+} else {
+
+  setTimeout(() => {
+
+    addMsg(
+      'ai',
+      `🏁 <strong>All questions answered!</strong> Great work completing the ${currentRound.toUpperCase()} round.`
+    );
+
+  }, 1500);
+}
+  } catch(err) {
+    status.textContent = '⚠️ API error. Check your connection.';
+    addMsg('feedback', `<span style="color:var(--accent5)">Could not connect to AI feedback. Try again.</span>`);
+  } finally {
+
+  setTimeout(() => {
+    isSubmitting = false;
+  }, 2500);
+}
+}
+</script>
+</body>
+</html>
